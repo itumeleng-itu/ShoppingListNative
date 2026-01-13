@@ -3,8 +3,11 @@ import { Text, View, Image, Pressable, ScrollView, TouchableOpacity } from "reac
 import Animated, { FadeInDown } from "react-native-reanimated";
 import SegmentedControl from "@/components/ui/segmentedControlFilters";
 import { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context"; 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BottomBar from "@/components/ui/bottomBar"; 
 const home = require('../assets/images/home.png')
+const list = require('../assets/images/list.png')
+const faq = require('../assets/images/faq.png')
 
 export default function HomeScreen() {
     const [activeTab, setActiveTab] = useState("All");
@@ -13,6 +16,19 @@ export default function HomeScreen() {
     const handlePress = (): void => {
         console.log(activeTab);
         
+    }
+
+    function goToList() {
+        console.log("not yet implemented ");
+        
+    }
+
+    function goToHome() {
+        console.log("nav to home ");
+    }
+
+    function goToFaq() {
+        console.log("nav to faq ");
     }
 
     return (
@@ -57,34 +73,12 @@ export default function HomeScreen() {
                 )}
             </Animated.View>
             </ScrollView>
-            <View className="bg-white/30  pt-4 px-8 flex-row justify-between items-center"
-                    style={{ paddingBottom: Math.max(insets.bottom, 20) }}>
-
-                        <TouchableOpacity className="items-center pt-4 px-8">
-                            <Pressable 
-                                className="w-6 h-6 bg-white rounded-full mb-1"
-                                onPress={()=>{handlePress()}} >
-                            </Pressable>
-                            <Text className="text-white text-[10px] font-bold">FAQ</Text>
-                        </TouchableOpacity>
-                        
-                        <TouchableOpacity className="items-center pt-4 px-8">
-                            <Pressable 
-                                className="w-6 h-6 mb-1"
-                                onPress={()=>{handlePress()}} >
-                                    <Image source={home} className="h-6 w-6"/>
-                            </Pressable>
-                            <Text className="text-white text-[10px] font-bold">HOME</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity className="items-center pt-4 px-8">
-                            <Pressable 
-                                className="w-6 h-6 bg-white rounded-full mb-1"
-                                onPress={()=>{handlePress()}} >
-                            </Pressable>
-                            <Text className="text-white text-[10px] font-bold">LIST</Text>
-                        </TouchableOpacity>
-            </View>
+            <BottomBar 
+                icons={[home,faq,list]}
+                onFaq={() => console.log('FAQ')}
+                onHome={() => console.log('Home')}
+                onList={() => console.log('List')}
+            />
         </View>
     )
 }

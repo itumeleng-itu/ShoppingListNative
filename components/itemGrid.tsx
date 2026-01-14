@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TouchableOpacity, View, Pressable } from 'react-native';
 import { useProducts } from '../hooks/useProducts';
 
-const ItemGrid = ({ category }: { category: string }) => {
+// Added onViewItem to your existing prop structure
+const ItemGrid = ({ category, searchQuery = '', onViewItem }: { category: string; searchQuery?: string; onViewItem: (item: any) => void }) => {
   const { items, isLoading } = useProducts(category);
 
-  // Show loading spinner while fetching data
   if (isLoading) {
     return (
       <View className="flex-1 justify-center items-center py-20">
@@ -14,20 +14,20 @@ const ItemGrid = ({ category }: { category: string }) => {
     );
   }
 
-  // Limit to 4 items for a 2x2 grid
-  const gridItems = items?.slice(0, 30) || [];
+  const filteredItems = items?.filter((item: any) => 
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+  const gridItems = filteredItems.slice(0, 30);
 
   const renderItem = ({ item }: { item: any }) => (
     <View style={styles.itemContainer}>
       <View style={styles.card}>
-        
         <Image 
           source={{ uri: item.image }} 
           style={styles.image}
           resizeMode="cover"
         />
 
-        {/* Product Info - Bottom section */}
         <View style={styles.contentSection}>
           <Text style={styles.productName} numberOfLines={1}>
             {item.name}
@@ -37,13 +37,13 @@ const ItemGrid = ({ category }: { category: string }) => {
             Category: {category}
           </Text>
 
-          {/* White button matching your screenshot */}
           <TouchableOpacity 
             style={styles.button}
             activeOpacity={0.8}
+            onPress={() => onViewItem(item)} // Triggers the display
           >
             <Text style={styles.buttonText}>
-              View
+                View
             </Text>
           </TouchableOpacity>
         </View>
@@ -66,7 +66,6 @@ const ItemGrid = ({ category }: { category: string }) => {
 };
 
 const styles = StyleSheet.create({
-
   itemContainer: {
     width: '48.5%',
     marginBottom: 16,
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     alignSelf: 'flex-end',
-    width: 60
   },
   buttonText: {
     color: '#000000',

@@ -11,3 +11,8 @@ export const getItemsByCategory = async(category: string) =>{
     return groceryData.filter(item => item.category === category)
 }
 
+export const getItemsById = async(id: string) =>{
+    await new Promise((resolve)=> setTimeout(resolve,400));
+
+    return groceryData.filter(item => item.id === id)
+}

@@ -6,20 +6,23 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { ShoppingListProvider } from '@/hooks/useShoppingList';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="faq" options={{ headerShown: false }} />
-        <Stack.Screen name="homePage" options={{ headerShown: false }} />
-        <Stack.Screen name="addItem" options={{ headerShown: false }} />
-        <Stack.Screen name="list" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <ShoppingListProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="faq" options={{ headerShown: false }} />
+          <Stack.Screen name="homePage" options={{ headerShown: false }} />
+          <Stack.Screen name="addItem" options={{ headerShown: false }} />
+          <Stack.Screen name="list" options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </ShoppingListProvider>
   );
 }

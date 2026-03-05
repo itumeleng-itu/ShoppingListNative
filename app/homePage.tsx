@@ -3,6 +3,7 @@ import ItemGrid from "@/components/itemGrid";
 import BottomBar from "@/components/ui/bottomBar";
 import SearchBar from "@/components/ui/searchBar";
 import SegmentedControl from "@/components/ui/segmentedControlFilters";
+import { useShoppingList } from "@/hooks/useShoppingList";
 import { router } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -18,6 +19,7 @@ export default function HomeScreen() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedItem, setSelectedItem] = useState<any>(null); // State for onClick display
     const insets = useSafeAreaInsets();
+    const { addItem } = useShoppingList();
 
     return (
         <View className="flex-1 bg-green-700 gap-3" style = {{paddingTop: insets.top}}> 
@@ -53,7 +55,7 @@ export default function HomeScreen() {
                 item={selectedItem}
                 onClose={() => setSelectedItem(null)}
                 onAddToList={() => {
-                    // Add to list logic here
+                    addItem(selectedItem);
                     setSelectedItem(null);
                 }}
             />
